@@ -68,6 +68,11 @@
 			},
 			{
 				"inputs": [],
+				"name": "OnlyProposer",
+				"type": "error"
+			},
+			{
+				"inputs": [],
 				"name": "ProposalNotFound",
 				"type": "error"
 			},
@@ -88,6 +93,19 @@
 					}
 				],
 				"name": "ProposalApproved",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "ProposalCancelled",
 				"type": "event"
 			},
 			{
@@ -156,6 +174,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "cancelProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "destination",
 						"type": "address"
@@ -190,6 +221,55 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "getProposal",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "proposer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "destination",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					},
+					{
+						"internalType": "uint256",
+						"name": "approvals",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "executed",
+						"type": "bool"
+					},
+					{
+						"internalType": "bool",
+						"name": "cancelled",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getSigners",
 				"outputs": [
@@ -216,6 +296,30 @@
 					}
 				],
 				"name": "hasApproved",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "signer",
+						"type": "address"
+					}
+				],
+				"name": "hasSignerApproved",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -338,6 +442,10 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -368,11 +476,11 @@
 	},
 	"sources": {
 		".git/contracts/Multisig.sol": {
-			"keccak256": "0xc2ab763755294e93468003e21db926f0ec18dac8cec3c64a5be206e122efa316",
+			"keccak256": "0xf12ca2bc0fd3bd152d4231c228962bda1c3fb52012612a957010ab2d6c419564",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8d8e257e36ea80a877fe7d8557fdce942696276179c202e8bfe9d1b142130b8e",
-				"dweb:/ipfs/QmdcWdHoDzwM56zVpkT5X3cgNYmjZm3baF1EepSh5hCMNg"
+				"bzz-raw://3105dfcaa0bbd6eff5ca221c88c48862a95f32d0fc0dd42075e346aea1ca24b1",
+				"dweb:/ipfs/QmRkMscCZazipbP3esYqtydoByVaiZ3JEXiPcEfq5VqfQu"
 			]
 		}
 	},
