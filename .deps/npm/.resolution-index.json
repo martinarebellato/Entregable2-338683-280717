@@ -1,0 +1,10 @@
+{
+  ".git/contracts/Multisig.sol": {
+    "__sources__": {
+      ".git/contracts/Multisig.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.8.2 <0.9.0;\r\n\r\ncontract Multisig {\r\n    address[] public signers;\r\n    uint256 public threshold;\r\n\r\n    mapping(address => bool) public isSigner;\r\n\r\n    error InvalidThreshold();\r\n    error InvalidSigner();\r\n\r\n    constructor(address[] memory initialSigners, uint256 initialThreshold) {\r\n        if (initialThreshold == 0 || initialThreshold > initialSigners.length) {\r\n            revert InvalidThreshold();\r\n        }\r\n\r\n        for (uint256 i = 0; i < initialSigners.length; i++) {\r\n            address signer = initialSigners[i];\r\n\r\n            if (signer == address(0) || isSigner[signer]) {\r\n                revert InvalidSigner();\r\n            }\r\n\r\n            isSigner[signer] = true;\r\n            signers.push(signer);\r\n        }\r\n\r\n        threshold = initialThreshold;\r\n    }\r\n\r\n    function getSigners() external view returns (address[] memory) {\r\n        return signers;\r\n    }\r\n}",
+        "file": ".git/contracts/Multisig.sol"
+      }
+    }
+  }
+}
