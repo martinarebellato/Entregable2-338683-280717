@@ -1,0 +1,109 @@
+{
+	"compiler": {
+		"version": "0.8.34+commit.80d5c536"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "shouldApproveProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "shouldCreateProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "shouldExecuteProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "shouldRejectDuplicateApproval",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "shouldRejectNonSignerApproval",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			".git/contracts/Multisig_test.sol": "MultisigTest"
+		},
+		"evmVersion": "osaka",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		".git/contracts/Multisig.sol": {
+			"keccak256": "0xf12ca2bc0fd3bd152d4231c228962bda1c3fb52012612a957010ab2d6c419564",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3105dfcaa0bbd6eff5ca221c88c48862a95f32d0fc0dd42075e346aea1ca24b1",
+				"dweb:/ipfs/QmRkMscCZazipbP3esYqtydoByVaiZ3JEXiPcEfq5VqfQu"
+			]
+		},
+		".git/contracts/MultisigTestHelpers.sol": {
+			"keccak256": "0xc6622e2449b3a1660bec134f9c98761739edb33b5520bd9b58b0853d5bf6e8b1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e0ce06a8f72aeb40a08de38895b79307261b1f2dffc769bdb69b166532fbc625",
+				"dweb:/ipfs/QmebQVNTEvTxH9tXs1i1rZKH31khkvw4A22DE8hxJKWxMZ"
+			]
+		},
+		".git/contracts/Multisig_test.sol": {
+			"keccak256": "0xdecc07debc999c899c04fb9f6cae7f1e3cf43d328d1109904a058388e0d01c79",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://23867cc98c4ae8be9c62b9f2db2dfc8eaee8e2c2a2923ce7522454718346f8c0",
+				"dweb:/ipfs/QmSQuebNQDxk9gerGaZ5RiR9Z1k1PTVSmjRfVbsWujtioa"
+			]
+		},
+		"remix_tests.sol": {
+			"keccak256": "0xe2783cdc204cba8c72494119339f1d90f9022b15d6c718c668b7f097d8e29787",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://bb6a22e64c7f16bcaab63b1c1a1b269d5be8a6d37bdd9dec1718477ab916b18e",
+				"dweb:/ipfs/QmdkW1tT5iadBvaHMCoskhDGZKnfdg8o1D9CcoQYtdJet7"
+			]
+		}
+	},
+	"version": 1
+}
