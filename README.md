@@ -274,6 +274,11 @@ Threshold configurado:
 2
 ```
 
+![imagen 1](/img/im1.png)
+![imagen 2](/img/img2.png)
+![imagen 3](/img/img3.png)
+![imagen 4](/img/img4.png)
+
 Esto significa que existen tres signers autorizados y se necesitan dos aprobaciones para ejecutar una propuesta.
 
 ## Prueba manual realizada en Sepolia
