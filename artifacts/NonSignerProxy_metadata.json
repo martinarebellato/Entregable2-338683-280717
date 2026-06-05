@@ -1,0 +1,72 @@
+{
+	"compiler": {
+		"version": "0.8.34+commit.80d5c536"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "contract Multisig",
+						"name": "multisig",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "approveProposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/MultisigTestHelpers.sol": "NonSignerProxy"
+		},
+		"evmVersion": "osaka",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Multisig.sol": {
+			"keccak256": "0xf12ca2bc0fd3bd152d4231c228962bda1c3fb52012612a957010ab2d6c419564",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3105dfcaa0bbd6eff5ca221c88c48862a95f32d0fc0dd42075e346aea1ca24b1",
+				"dweb:/ipfs/QmRkMscCZazipbP3esYqtydoByVaiZ3JEXiPcEfq5VqfQu"
+			]
+		},
+		"contracts/MultisigTestHelpers.sol": {
+			"keccak256": "0xc6622e2449b3a1660bec134f9c98761739edb33b5520bd9b58b0853d5bf6e8b1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e0ce06a8f72aeb40a08de38895b79307261b1f2dffc769bdb69b166532fbc625",
+				"dweb:/ipfs/QmebQVNTEvTxH9tXs1i1rZKH31khkvw4A22DE8hxJKWxMZ"
+			]
+		}
+	},
+	"version": 1
+}
