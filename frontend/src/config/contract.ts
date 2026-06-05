@@ -1,0 +1,4 @@
+export const MULTISIG_CONTRACT_ADDRESS =
+    "0x5fC762D70108e3bb7E41B3025e03A0ED7cadc0E4";
+
+export const SEPOLIA_CHAIN_ID = "0xaa36a7";

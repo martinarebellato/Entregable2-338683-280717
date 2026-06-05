@@ -1,11 +1,12 @@
 # Entrega 2 - Contrato Multisig (338683-280717)
 
-
 ## Descripción
 
 Este proyecto implementa un contrato inteligente de firma múltiple (*multisig*) en Solidity.
 
 El contrato permite que un conjunto de direcciones autorizadas (*signers*) pueda crear, aprobar, ejecutar y cancelar propuestas de transacción. Una propuesta solo puede ejecutarse cuando alcanza una cantidad mínima de aprobaciones configurada en el despliegue del contrato, llamada `threshold`.
+
+Además, se implementó una interfaz web en React que permite conectarse con MetaMask e interactuar con el contrato desplegado en Sepolia.
 
 ## Decisión de diseño
 
@@ -105,40 +106,114 @@ event ProposalExecuted(uint256 indexed proposalId);
 event ProposalCancelled(uint256 indexed proposalId);
 ```
 
-## Estructura del contrato
-
-El archivo principal se encuentra en:
+## Estructura del proyecto
 
 ```text
-contracts/Multisig.sol
+contracts/
+  Multisig.sol
+  Multisig_test.sol
+  MultisigTestHelpers.sol
+
+frontend/
+  src/
+    abi/
+      Multisig.json
+    components/
+      ContractInfo.tsx
+      ProposalForm.tsx
+      ProposalList.tsx
+    config/
+      contract.ts
+    types/
+      Proposal.ts
+      ethereum.d.ts
+    App.tsx
+    App.css
+
+README.md
 ```
 
-## Compilación en Remix
+## Compilación del contrato en Remix
 
 Para compilar el contrato:
 
-1. Abrir Remix: https://remix.ethereum.org/
-2. Crear o abrir el archivo:
+1. Abrir Remix:
+
+```text
+https://remix.ethereum.org/
+```
+
+2. Abrir el archivo:
 
 ```text
 contracts/Multisig.sol
 ```
 
 3. Ir a la pestaña **Solidity Compiler**.
+
 4. Seleccionar una versión compatible con:
 
 ```solidity
 pragma solidity >=0.8.2 <0.9.0;
 ```
 
-5. Presionar **Compile Multisig.sol**.
+En esta entrega se utilizó la versión:
 
-## Despliegue en Remix
+```text
+0.8.34
+```
 
-Para desplegar el contrato:
+5. Presionar:
+
+```text
+Compile Multisig.sol
+```
+
+Resultado obtenido:
+
+```text
+Compilation successful
+```
+
+## Tests del contrato
+
+Las pruebas del contrato se realizaron en Remix utilizando **Solidity Unit Testing**.
+
+Archivo de tests:
+
+```text
+contracts/Multisig_test.sol
+```
+
+Tests implementados:
+
+* `shouldCreateProposal`
+* `shouldApproveProposal`
+* `shouldExecuteProposal`
+* `shouldRejectDuplicateApproval`
+* `shouldRejectNonSignerApproval`
+
+Resultado de los tests:
+
+```text
+Passed: 5
+Failed: 0
+```
+
+Los tests validan que el contrato pueda crear, aprobar y ejecutar propuestas correctamente. También validan que se rechacen aprobaciones duplicadas y aprobaciones realizadas por cuentas que no son signers.
+
+## Despliegue del contrato
+
+En esta entrega se utilizó Remix como herramienta principal para compilar, testear y desplegar el contrato.
+
+Por este motivo, no se incluye un script automatizado de despliegue con Hardhat o Foundry. El despliegue se realiza manualmente desde Remix, que fue el toolchain utilizado durante el desarrollo.
+
+### Despliegue local en Remix
+
+Para desplegar localmente:
 
 1. Ir a la pestaña **Deploy & Run Transactions**.
-2. Seleccionar un ambiente, por ejemplo:
+2. Seleccionar el ambiente:
 
 ```text
 Remix VM
@@ -156,141 +231,197 @@ initialThreshold:
 
 4. Presionar **Deploy**.
 
-## Pruebas manuales realizadas
+### Despliegue en Sepolia
 
-Se realizaron pruebas manuales desde Remix para validar el flujo principal del contrato.
+Para desplegar en Sepolia:
 
-### 1. Deploy
-
-Se desplegó el contrato con tres signers y un threshold de `2`.
-
-Se verificó que:
-
-* `threshold()` devuelve `2`.
-* `getSigners()` devuelve la lista de signers configurada.
-
-### 2. Crear propuesta
-
-Se llamó a:
-
-```solidity
-createProposal(destination, 0, "0x")
-```
-
-Se verificó que:
-
-* `proposalCount()` devuelve `1`.
-* `getProposal(0)` devuelve la propuesta creada.
-* La propuesta comienza con `approvals = 0`.
-* La propuesta comienza con `executed = false`.
-* La propuesta comienza con `cancelled = false`.
-
-### 3. Aprobar propuesta
-
-Se aprobó la propuesta con dos signers distintos llamando a:
-
-```solidity
-approveProposal(0)
-```
-
-Se verificó que:
-
-* luego de la primera aprobación, `approvals = 1`.
-* luego de la segunda aprobación, `approvals = 2`.
-* `hasSignerApproved(0, signer)` devuelve `true` para el signer que aprobó.
-
-### 4. Rechazo de aprobación duplicada
-
-Se intentó aprobar dos veces la misma propuesta con el mismo signer.
-
-El contrato rechazó la operación con el error:
-
-```solidity
-AlreadyApproved
-```
-
-### 5. Ejecutar propuesta
-
-Luego de alcanzar el threshold, se llamó a:
-
-```solidity
-executeProposal(0)
-```
-
-Se verificó que:
-
-* la propuesta queda con `executed = true`.
-* la propuesta mantiene `cancelled = false`.
-
-### 6. Rechazo de ejecución duplicada
-
-Se intentó ejecutar nuevamente la misma propuesta.
-
-El contrato rechazó la operación con el error:
-
-```solidity
-AlreadyExecuted
-```
-
-### 7. Rechazo de cancelación de propuesta ejecutada
-
-Se intentó cancelar una propuesta ya ejecutada.
-
-El contrato rechazó la operación con el error:
-
-```solidity
-AlreadyExecuted
-```
-
-### 8. Cancelar propuesta pendiente
-
-Se creó una nueva propuesta y el proponente original la canceló llamando a:
-
-```solidity
-cancelProposal(1)
-```
-
-Se verificó que:
-
-* la propuesta queda con `cancelled = true`.
-* la propuesta mantiene `executed = false`.
-
-## Despliegue en Sepolia
-
-Pendiente de completar.
-
-Dirección del contrato desplegado en Sepolia:
+1. Abrir MetaMask.
+2. Seleccionar la red:
 
 ```text
-Pendiente
+Sepolia Testnet
+```
+
+3. En Remix, ir a **Deploy & Run Transactions**.
+4. En `Environment`, seleccionar:
+
+```text
+Browser Extension - Sepolia Testnet - MetaMask
+```
+
+5. En el constructor completar la lista de signers y el threshold.
+6. Presionar **Deploy** y confirmar la transacción en MetaMask.
+
+## Contrato desplegado en Sepolia
+
+Dirección del contrato desplegado:
+
+```text
+0x5fC762D70108e3bb7E41B3025e03A0ED7cadc0E4
 ```
 
 Wallets utilizadas como signers:
 
 ```text
-Pendiente
+0xedf73600515273AE1c08B771d52B895d394D7E49
+0x2bfc49015C23B232A78A834627C74c7d8e24b23D
+0x40b0DCa0dBb34F58927348c33541B09E56D48481
 ```
 
 Threshold configurado:
 
 ```text
-Pendiente
+2
 ```
+
+Esto significa que existen tres signers autorizados y se necesitan dos aprobaciones para ejecutar una propuesta.
+
+## Prueba manual realizada en Sepolia
+
+Se probó el flujo completo sobre Sepolia:
+
+1. Consultar la información inicial del contrato.
+2. Crear una propuesta.
+3. Aprobar la propuesta con Account 1.
+4. Aprobar la misma propuesta con Account 2.
+5. Ejecutar la propuesta luego de alcanzar el threshold.
+6. Consultar el estado final de la propuesta.
+
+Funciones consultadas inicialmente:
+
+```solidity
+getSigners()
+threshold()
+proposalCount()
+```
+
+Luego se creó la propuesta `0` con:
+
+```solidity
+createProposal(destination, 0, "0x")
+```
+
+La propuesta fue creada por:
+
+```text
+0xedf73600515273AE1c08B771d52B895d394D7E49
+```
+
+La dirección destino fue:
+
+```text
+0x40b0DCa0dBb34F58927348c33541B09E56D48481
+```
+
+Resultado final de `getProposal(0)`:
+
+```text
+proposer: 0xedf73600515273AE1c08B771d52B895d394D7E49
+destination: 0x40b0DCa0dBb34F58927348c33541B09E56D48481
+value: 0
+data: 0x
+approvals: 2
+executed: true
+cancelled: false
+```
+
+Esto confirma que la propuesta fue creada, aprobada por dos signers distintos y ejecutada correctamente en Sepolia.
 
 ## Frontend
 
-Pendiente de completar.
+El frontend fue implementado en React con TypeScript utilizando Vite.
 
-El frontend será implementado en React y permitirá:
+La interfaz permite:
 
-* conectar una wallet,
+* conectar una wallet con MetaMask,
 * verificar si la wallet conectada es signer,
-* listar propuestas,
-* crear propuestas,
-* aprobar propuestas,
-* ejecutar propuestas cuando se alcance el threshold,
-* mostrar información general del contrato.
+* mostrar la dirección del contrato desplegado,
+* mostrar la lista de signers,
+* mostrar el threshold configurado,
+* listar todas las propuestas,
+* mostrar ID, destino, valor, aprobaciones y estado de cada propuesta,
+* crear nuevas propuestas,
+* aprobar propuestas pendientes,
+* ejecutar propuestas cuando alcanzan el threshold,
+* cancelar propuestas pendientes si la wallet conectada es el proponente original,
+* deshabilitar acciones cuando no corresponden.
+
+El frontend utiliza el ABI del contrato para interactuar con Sepolia.
+
+ABI utilizado:
+
+```text
+frontend/src/abi/Multisig.json
+```
+
+Dirección del contrato configurada en el frontend:
+
+```text
+frontend/src/config/contract.ts
+```
+
+## Ejecución del frontend
+
+Para ejecutar el frontend localmente:
+
+1. Entrar a la carpeta del frontend:
+
+```bash
+cd frontend
+```
+
+2. Instalar dependencias:
+
+```bash
+npm install
+```
+
+3. Ejecutar la aplicación en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+4. Abrir en el navegador la URL indicada por Vite, por ejemplo:
+
+```text
+http://localhost:5173/
+```
+
+5. Conectar MetaMask en la red Sepolia.
+
+## Verificación de TypeScript y build
+
+Se ejecutó el build del frontend con:
+
+```bash
+npm run build
+```
+
+Resultado:
+
+```text
+tsc -b && vite build
+✓ built
+```
+
+El build terminó correctamente, sin errores de TypeScript.
+
+Durante el build apareció una advertencia indicando que algunos chunks superan los 500 kB luego de la minificación. Esta advertencia no impide la compilación ni la ejecución del frontend. Se debe principalmente al uso de dependencias como `ethers`.
+
+## Flujo probado desde el frontend
+
+Desde la interfaz React se verificó que:
+
+* se muestra correctamente la información del contrato,
+* se muestra la wallet conectada,
+* se detecta si la wallet conectada es signer,
+* se listan las propuestas existentes,
+* la propuesta `0` aparece como ejecutada,
+* las propuestas pendientes muestran botones de aprobar, ejecutar y cancelar según corresponda,
+* el botón de ejecutar solo queda habilitado cuando se alcanza el threshold.
 
 ## Integrantes
 
-Pendiente de completar.
+* Martina Rebellato - 338683
+* Lucia Mendez - 280717
